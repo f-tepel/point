@@ -10,6 +10,11 @@ fs.readFile('views/pages/main.html', (err, html) => {
     res.send(html.toString());
   });
 });
+fs.readFile('views/pages/game.html', (err, html) => {
+  app.get('/game', function (req, res) {
+    res.send(html.toString());
+  });
+});
 
 app.use('/public', express.static(path.join(__dirname, 'public')));
 

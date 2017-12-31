@@ -35,8 +35,17 @@ body {
 .info {
   display: none;
   position: absolute;
-  top: 20vh;
-  bottom: 20vh;
-  left: 20vw;
-  right: 20vw;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
+  .info .card {
+    margin: auto;
+  }
+  .info form {
+    margin: 1rem 0;
+  }
+  .info a {
+    margin: 1rem 0;
+  }

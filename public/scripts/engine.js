@@ -1,5 +1,7 @@
 var point = document.getElementById('point');
 var info =  document.getElementById('info');
+var score = document.getElementById('score');
+var currentScore = 0;
 var time = 3000;
 var clicks = 0;
 var timer;
@@ -12,6 +14,9 @@ function move() {
     clearTimeout(timer);
     timer = setTimeout(startTimer, time);
   }
+  currentScore += 100;
+  score.innerHTML = "Your score: " + currentScore + "XP";
+
   stopTimerAnimation();
   startTimerAnimation();
   var x = Math.floor((Math.random() * 90) + 1);
@@ -39,11 +44,20 @@ function stopTimerAnimation() {
 }
 
 function startTimer() {
-  info.style.background = "grey";
-  info.style.display = "block";
+  info.style.display = "flex";
 
-  document.getElementById('time').innerHTML = "Your time: " + time;
-  document.getElementById('clicks').innerHTML = "Total clicks " +clicks;
+  document.getElementById('time').innerHTML = "Quickest time: " + time;
+  document.getElementById('clicks').innerHTML = "Total clicks " + clicks;
+  document.getElementById('scoreResult').innerHTML = "Score: " + currentScore + "XP";
+}
 
+function playAgain() {
   time = 3000;
+  clicks = 0;
+  currentScore = 0;
+  score.innerHTML = "Your score: " + currentScore + "XP";
+
+  info.style.display = "none";
+  point.style.margin = "auto";
+  point.style.position = "static";
 }

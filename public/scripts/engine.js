@@ -61,3 +61,15 @@ function playAgain() {
   point.style.margin = "auto";
   point.style.position = "static";
 }
+
+function saveStats() {
+    var parameters = { name: $('#name').val(),
+                       score: currentScore,
+                       clicks: clicks,
+                       time: time
+                      };
+    $.get('/searching',parameters, function(data) {
+      //$('#results').html(data);\
+      alert(data);
+    });
+};

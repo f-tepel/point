@@ -9,10 +9,21 @@ const assert = require('assert');
 // Use connect method to connect to the server
 MongoClient.connect("mongodb://localhost:27017", function (err, client) {
   if(err) throw err;
-  console.log("Hello World")
-  const points = client.db('points')
-  const customers = points.collection('customers')
-  console.log("Collection created!");
+
+  const points = client.db('points');
+  const scores = points.collection('scores');
+
+  const findDocuments = function(db, callback) {
+    scores.find().sort({score : 1}).toArray(function(err, docs) {
+      assert.equal(err, null);
+      console.log("Found the following records");
+      console.log(docs)
+      var data = JSON.parse(docs)
+      console.log(data.name);
+
+    });
+  }
+  findDocuments();
 
   fs.readFile('views/pages/main.html', (err, html) => {
     app.get('/main', function (req, res) {
@@ -26,13 +37,17 @@ MongoClient.connect("mongodb://localhost:27017", function (err, client) {
     });
   });
 
-  app.get('/searching', function(req, res){
+  app.get('/saveUser', function(req, res){
     const name = req.query.name;
     const score = req.query.score;
     const clicks = req.query.clicks;
     const time = req.query.time;
 
     res.send("Name " + name + " Score: " + score + " Clicks: " + clicks + " Time: " + time);
+
+    scores.insertOne(
+      {name : name, score : score, clicks : clicks, time : time}
+    );
   });
 
   app.use('/public', express.static(path.join(__dirname, 'public')));

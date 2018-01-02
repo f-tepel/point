@@ -49,3 +49,21 @@ body {
   .info a {
     margin: 1rem 0;
   }
+.scorelist {
+  border-left-style: solid;
+  border-left-width: 1px;
+}
+  .scorelist .window {
+    height: 20rem;
+    width: 100%;
+    overflow: scroll;
+  }
+    .scorelist .window .item {
+      border-top-style: solid;
+      border-top-color: black;
+      border-top-width: 1px;
+    }
+      .scorelist .window .item p {
+        padding: 1rem;
+        margin: 0;
+      }

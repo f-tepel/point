@@ -46,8 +46,8 @@ function stopTimerAnimation() {
 function startTimer() {
   info.style.display = "flex";
 
-  document.getElementById('time').innerHTML = "Quickest time: " + time;
-  document.getElementById('clicks').innerHTML = "Total clicks " + clicks;
+  document.getElementById('time').innerHTML = "Quickest time: " + time + "ms";
+  document.getElementById('clicks').innerHTML = "Total clicks: " + clicks;
   document.getElementById('scoreResult').innerHTML = "Score: " + currentScore + "XP";
 }
 
@@ -68,8 +68,7 @@ function saveStats() {
                        clicks: clicks,
                        time: time
                       };
-    $.get('/searching',parameters, function(data) {
-      //$('#results').html(data);\
+    $.get('/saveUSER',parameters, function(data) {
       alert(data);
     });
 };

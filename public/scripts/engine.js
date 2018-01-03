@@ -52,9 +52,13 @@ function startTimer() {
 }
 
 function playAgain() {
+  var stats = document.getElementById("stats");
+  stats.innerHTML = '';
+
   time = 3000;
   clicks = 0;
   currentScore = 0;
+
   score.innerHTML = "Your score: " + currentScore + "XP";
 
   info.style.display = "none";
@@ -63,12 +67,23 @@ function playAgain() {
 }
 
 function saveStats() {
-    var parameters = { name: $('#name').val(),
-                       score: currentScore,
-                       clicks: clicks,
-                       time: time
-                      };
-    $.get('/saveUSER',parameters, function(data) {
-      alert(data);
-    });
+  var parameters = { name: $('#name').val(),
+                     score: currentScore,
+                     clicks: clicks,
+                     time: time
+                    };
+  $.get('/saveUSER', parameters, function(data) {
+    for (var i = 0; i < data.length; i++) {
+      addItem(data[i], i);
+    };
+  });
 };
+
+function addItem(data, i) {
+  var tr = document.createElement('tr');
+
+  tr.className = 'singleStat';
+
+  tr.innerHTML = '<td>' + (i + 1) + '</td><td>' + data.name + '</td><td>' + data.score + '</td>'
+  document.getElementById('stats').appendChild(tr);
+}

@@ -33,7 +33,7 @@ body {
   margin: auto;
 }
 .info {
-  display: none;
+  display: flex;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -56,7 +56,7 @@ body {
   .scorelist .window {
     height: 20rem;
     width: 100%;
-    overflow: scroll;
+    overflow: hidden;
   }
     .scorelist .window .item {
       border-top-style: solid;

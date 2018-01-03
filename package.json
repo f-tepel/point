@@ -8,6 +8,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "watch": "nodemon -e .js,.html,.css app.js",
     "test": "node test.js"
   },
   "dependencies": {

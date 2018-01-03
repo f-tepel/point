@@ -35,14 +35,27 @@ MongoClient.connect("mongodb://localhost:27017", function (err, client) {
       {name : name, score : score, clicks : clicks, time : time}
     );
 
-    const findDocuments = function(db, callback) {
-      scores.find().sort({score : -1}).limit(5).toArray(function(err, docs) {
-        assert.equal(err, null);
-        res.send(docs);
-      });
-    }
-    findDocuments();
+    //const allScores = scores.find().sort({score : 1}).toArray();
 
+    scores.find({ score: { $gt: score } } ).sort({score : 1}).limit(2).toArray(function(err, higher) {
+      if (err) throw err;
+
+      scores.find({ score: { $lt: score } } ).sort({score : -1}).limit(2).toArray(function(err, lower) {
+        if (err) throw err;
+
+        res.send({
+          lower: lower,
+          higher: higher
+        });
+      });
+    });
+  });
+
+  app.get('/showTop', function (req, res) {
+    scores.find().sort({score : -1}).limit(10).toArray(function(err, data) {
+      if (err) throw err;
+      res.send(data);
+    });
   });
 
   app.use('/public', express.static(path.join(__dirname, 'public')));

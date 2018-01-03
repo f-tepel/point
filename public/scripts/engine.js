@@ -72,18 +72,38 @@ function saveStats() {
                      clicks: clicks,
                      time: time
                     };
-  $.get('/saveUSER', parameters, function(data) {
-    for (var i = 0; i < data.length; i++) {
-      addItem(data[i], i);
-    };
+  $.get('/saveUser', parameters, function(data) {
+    console.log(data);
+    for (var h of data.higher) {
+      addItem(h);
+    }
+    addItem(parameters);
+    for (var h of data.lower) {
+      addItem(h);
+    }
   });
 };
 
-function addItem(data, i) {
+function addItem(data) {
+  console.log('adding item:', data);
   var tr = document.createElement('tr');
 
   tr.className = 'singleStat';
 
-  tr.innerHTML = '<td>' + (i + 1) + '</td><td>' + data.name + '</td><td>' + data.score + '</td>'
+  tr.innerHTML = '<td>' + data.rank + '</td><td>' + data.name + '</td><td>' + data.score + '</td>'
   document.getElementById('stats').appendChild(tr);
 }
+
+function showTop() {
+  $.get('/showTop', function(data) {
+    var stats = document.getElementById("stats");
+    stats.innerHTML = '';
+
+    for(var h of data) {
+      var tr = document.createElement('tr');
+      tr.className = 'singleStat';
+      tr.innerHTML = '<td>' + h.rank + '</td><td>' + h.name + '</td><td>' + h.score + '</td>'
+      document.getElementById('stats').appendChild(tr);
+    }
+  });
+};

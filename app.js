@@ -5,6 +5,7 @@ const path = require('path');
 const app = express();
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
+const PORT = process.env.PORT || 5000;
 
 // Use connect method to connect to the server
 MongoClient.connect("mongodb://heroku_h7xk0tmx:em7skah8t4vlj4tfmd10efda68@ds247077.mlab.com:47077/heroku_h7xk0tmx", function (err, client) {
@@ -75,6 +76,6 @@ MongoClient.connect("mongodb://heroku_h7xk0tmx:em7skah8t4vlj4tfmd10efda68@ds2470
 
   app.use('/public', express.static(path.join(__dirname, 'public')));
 
-  app.listen(8080);
-  console.log('listening on port 8080')
+  app.listen(PORT);
+  console.log('listening on port ' + PORT)
 });

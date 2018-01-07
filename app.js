@@ -17,7 +17,7 @@ MongoClient.connect("mongodb://heroku_h7xk0tmx:em7skah8t4vlj4tfmd10efda68@ds2470
   const points = client.db('points');
   const scores = points.collection('scores');
 
-  //scores.insertOne({name: "Felix", score: 9000, clicks: 3, time: 3000})
+  scores.insertOne({name: "Felix", score: 9000, clicks: 3, time: 3000})
 
   fs.readFile('views/pages/main.html', (err, html) => {
     app.get('/', function (req, res) {

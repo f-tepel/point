@@ -15,7 +15,7 @@ MongoClient.connect("mongodb://heroku_h7xk0tmx:em7skah8t4vlj4tfmd10efda68@ds2470
   const scores = points.collection('scores');
 
   fs.readFile('views/pages/main.html', (err, html) => {
-    app.get('/main', function (req, res) {
+    app.get('/', function (req, res) {
       res.send(html.toString());
     });
   });

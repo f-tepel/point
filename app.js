@@ -14,7 +14,10 @@ const PORT = process.env.PORT || 5000;
 MongoClient.connect("mongodb://heroku_h7xk0tmx:em7skah8t4vlj4tfmd10efda68@ds247077.mlab.com:47077/heroku_h7xk0tmx", function (err, client) {
   if(err) throw err;
 
+  //server
   const points = client.db('heroku_h7xk0tmx');
+  //local
+  //const points = client.db('points');
   const scores = points.collection('scores');
 
   scores.insertOne({name: "Felix", score: 9000, clicks: 3, time: 3000})
@@ -51,7 +54,7 @@ MongoClient.connect("mongodb://heroku_h7xk0tmx:em7skah8t4vlj4tfmd10efda68@ds2470
         for (var i = 0; i < allScores.length; i++) {
           console.log(i + " " + objId)
           if(allScores[i]._id.toString() == objId.toString()) {
-            rank = i;
+            rank = i + 1;
           }
         }
         scores.find({ score: { $gt: newInsert.score } } ).sort({score : 1}).limit(2).toArray(function(err, higher) {

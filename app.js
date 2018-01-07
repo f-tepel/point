@@ -49,18 +49,17 @@ MongoClient.connect("mongodb://heroku_h7xk0tmx:em7skah8t4vlj4tfmd10efda68@ds2470
             rank = i;
           }
         }
-      });
-
-      scores.find({ score: { $gt: newInsert.score } } ).sort({score : 1}).limit(2).toArray(function(err, higher) {
-        if (err) throw err;
-
-        scores.find({ score: { $lt: newInsert.score } } ).sort({score : -1}).limit(2).toArray(function(err, lower) {
+        scores.find({ score: { $gt: newInsert.score } } ).sort({score : 1}).limit(2).toArray(function(err, higher) {
           if (err) throw err;
 
-          res.send({
-            lower: lower,
-            higher: higher,
-            rank: rank
+          scores.find({ score: { $lt: newInsert.score } } ).sort({score : -1}).limit(2).toArray(function(err, lower) {
+            if (err) throw err;
+
+            res.send({
+              lower: lower,
+              higher: higher,
+              rank: rank
+            });
           });
         });
       });

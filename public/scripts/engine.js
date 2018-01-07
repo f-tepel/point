@@ -6,15 +6,19 @@ var time = 3000;
 var clicks = 0;
 var timer;
 var $timer = $("#timer");
+var currentTime;
+var endTime;
 
 function move() {
   if(clicks == 0) {
     timer = setTimeout(startTimer, time);
+    var date = new Date();
+    currentTime = parseInt(date.getTime());
   } else {
     clearTimeout(timer);
     timer = setTimeout(startTimer, time);
   }
-  currentScore += 100;
+  currentScore += 3000;
   score.innerHTML = "Your score: " + currentScore + "XP";
 
   stopTimerAnimation();
@@ -44,6 +48,10 @@ function stopTimerAnimation() {
 }
 
 function startTimer() {
+  var date = new Date();
+  endTime = parseInt(date.getTime());
+  var gameTime = endTime - currentTime;
+  currentScore -= gameTime;
   info.style.display = "flex";
 
   document.getElementById('time').innerHTML = "Quickest time: " + time + "ms";
@@ -73,24 +81,28 @@ function saveStats() {
                      time: time
                     };
   $.get('/saveUser', parameters, function(data) {
-    console.log(data);
-    for (var h of data.higher) {
-      addItem(h);
+    var dHigher = data.rank + 2;
+    var dLower = data.rank - 1;
+
+    for (var h = 0; h < data.higher.length; h++) {
+      addItem(data.higher[h], dHigher);
+      dHigher--;
     }
-    addItem(parameters);
+    addItem(parameters, data.rank);
     for (var h of data.lower) {
-      addItem(h);
+      addItem(h, dLower);
+      dLower--;
     }
   });
 };
 
-function addItem(data) {
-  console.log('adding item:', data);
+function addItem(data, rank) {
+  console.log('adding item:', data, rank);
   var tr = document.createElement('tr');
 
   tr.className = 'singleStat';
 
-  tr.innerHTML = '<td>' + data.rank + '</td><td>' + data.name + '</td><td>' + data.score + '</td>'
+  tr.innerHTML = '<td>' + rank + '</td><td>' + data.name + '</td><td>' + data.score + '</td>'
   document.getElementById('stats').appendChild(tr);
 }
 
@@ -98,12 +110,14 @@ function showTop() {
   $.get('/showTop', function(data) {
     var stats = document.getElementById("stats");
     stats.innerHTML = '';
+    var rank = 1;
 
     for(var h of data) {
       var tr = document.createElement('tr');
       tr.className = 'singleStat';
-      tr.innerHTML = '<td>' + h.rank + '</td><td>' + h.name + '</td><td>' + h.score + '</td>'
+      tr.innerHTML = '<td>' + rank + '</td><td>' + h.name + '</td><td>' + h.score + '</td>'
       document.getElementById('stats').appendChild(tr);
+      rank++;
     }
   });
 };

@@ -26,26 +26,41 @@ MongoClient.connect("mongodb://localhost:27017", function (err, client) {
   });
 
   app.get('/saveUser', function(req, res){
-    const name = req.query.name;
-    const score = parseInt(req.query.score);
-    const clicks = parseInt(req.query.clicks);
-    const time = req.query.time;
+    let objId;
+    let rank;
+    var newInsert = {
+      name: req.query.name,
+      score: parseInt(req.query.score),
+      clicks: parseInt(req.query.clicks),
+      time: req.query.time
+    };
 
-    scores.insertOne(
-      {name : name, score : score, clicks : clicks, time : time}
-    );
+    scores.insertOne(newInsert, function(err, docsInserted) {
+      if (err) throw err;
+      objId = newInsert._id;
+    });
 
-    //const allScores = scores.find().sort({score : 1}).toArray();
-
-    scores.find({ score: { $gt: score } } ).sort({score : 1}).limit(2).toArray(function(err, higher) {
+    scores.find().sort({score: -1}).toArray(function(err, allScores) {
       if (err) throw err;
 
-      scores.find({ score: { $lt: score } } ).sort({score : -1}).limit(2).toArray(function(err, lower) {
+      for (var i = 0; i < allScores.length; i++) {
+        console.log(i + " " + objId)
+        if(allScores[i]._id.toString() == objId.toString()) {
+          rank = i;
+        }
+      }
+    });
+
+    scores.find({ score: { $gt: newInsert.score } } ).sort({score : 1}).limit(2).toArray(function(err, higher) {
+      if (err) throw err;
+
+      scores.find({ score: { $lt: newInsert.score } } ).sort({score : -1}).limit(2).toArray(function(err, lower) {
         if (err) throw err;
 
         res.send({
           lower: lower,
-          higher: higher
+          higher: higher,
+          rank: rank
         });
       });
     });

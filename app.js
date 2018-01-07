@@ -7,12 +7,17 @@ const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 const PORT = process.env.PORT || 5000;
 
-// Use connect method to connect to the server
+// Use connect method to connect to the server loccal
+//MongoClient.connect("mongodb://localhost:27017", function (err, client) {
+
+//Use connect method to connect to the server online
 MongoClient.connect("mongodb://heroku_h7xk0tmx:em7skah8t4vlj4tfmd10efda68@ds247077.mlab.com:47077/heroku_h7xk0tmx", function (err, client) {
   if(err) throw err;
 
   const points = client.db('points');
   const scores = points.collection('scores');
+
+  //scores.insertOne({name: "Felix", score: 9000, clicks: 3, time: 3000})
 
   fs.readFile('views/pages/main.html', (err, html) => {
     app.get('/', function (req, res) {

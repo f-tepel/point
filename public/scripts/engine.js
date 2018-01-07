@@ -81,17 +81,17 @@ function saveStats() {
                      time: time
                     };
   $.get('/saveUser', parameters, function(data) {
-    var dHigher = data.rank + 2;
-    var dLower = data.rank - 1;
+    var dHigher = data.rank - 2;
+    var dLower = data.rank + 1;
 
     for (var h = 0; h < data.higher.length; h++) {
       addItem(data.higher[h], dHigher);
-      dHigher--;
+      dHigher++;
     }
     addItem(parameters, data.rank);
     for (var h of data.lower) {
       addItem(h, dLower);
-      dLower--;
+      dLower++;
     }
   });
 };

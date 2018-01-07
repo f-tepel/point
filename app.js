@@ -38,34 +38,35 @@ MongoClient.connect("mongodb://heroku_h7xk0tmx:em7skah8t4vlj4tfmd10efda68@ds2470
 
     scores.insertOne(newInsert, function(err, docsInserted) {
       if (err) throw err;
+
       objId = newInsert._id;
-    });
-
-    scores.find().sort({score: -1}).toArray(function(err, allScores) {
-      if (err) throw err;
-
-      for (var i = 0; i < allScores.length; i++) {
-        console.log(i + " " + objId)
-        if(allScores[i]._id.toString() == objId.toString()) {
-          rank = i;
-        }
-      }
-    });
-
-    scores.find({ score: { $gt: newInsert.score } } ).sort({score : 1}).limit(2).toArray(function(err, higher) {
-      if (err) throw err;
-
-      scores.find({ score: { $lt: newInsert.score } } ).sort({score : -1}).limit(2).toArray(function(err, lower) {
+      scores.find().sort({score: -1}).toArray(function(err, allScores) {
         if (err) throw err;
 
-        res.send({
-          lower: lower,
-          higher: higher,
-          rank: rank
+        for (var i = 0; i < allScores.length; i++) {
+          console.log(i + " " + objId)
+          if(allScores[i]._id.toString() == objId.toString()) {
+            rank = i;
+          }
+        }
+      });
+
+      scores.find({ score: { $gt: newInsert.score } } ).sort({score : 1}).limit(2).toArray(function(err, higher) {
+        if (err) throw err;
+
+        scores.find({ score: { $lt: newInsert.score } } ).sort({score : -1}).limit(2).toArray(function(err, lower) {
+          if (err) throw err;
+
+          res.send({
+            lower: lower,
+            higher: higher,
+            rank: rank
+          });
         });
       });
     });
   });
+
 
   app.get('/showTop', function (req, res) {
     scores.find().sort({score : -1}).limit(10).toArray(function(err, data) {

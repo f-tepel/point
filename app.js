@@ -7,7 +7,7 @@ const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 
 // Use connect method to connect to the server
-MongoClient.connect("mongodb://localhost:27017", function (err, client) {
+MongoClient.connect("mongodb://heroku_h7xk0tmx:em7skah8t4vlj4tfmd10efda68@ds247077.mlab.com:47077/heroku_h7xk0tmx", function (err, client) {
   if(err) throw err;
 
   const points = client.db('points');

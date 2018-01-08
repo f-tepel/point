@@ -83,7 +83,7 @@ function saveStats() {
     var name = $('#name').val();
     if(name) {
       document.getElementById('error-none').style.display = "none";
-      if(name.length < 13)
+      if(name.length < 13) {
         document.getElementById('error-max').style.display = "none";
 
         var parameters = {
@@ -115,7 +115,7 @@ function saveStats() {
       document.getElementById('error-none').style.display = "block";
     }
   }
-
+}
 
 function addItem(data, rank) {
   console.log('adding item:', data, rank);

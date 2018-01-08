@@ -79,6 +79,9 @@ function playAgain() {
 }
 
 function saveStats() {
+  document.getElementById('error-max').style.display = "none";
+  document.getElementById('error-none').style.display = "none";
+
   if(saveStatsCount == 0) {
     var name = $('#name').val();
     if(name) {

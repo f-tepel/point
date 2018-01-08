@@ -8,6 +8,7 @@ var timer;
 var $timer = $("#timer");
 var currentTime;
 var endTime;
+var saveStatsCount = 0;
 
 function move() {
   if(clicks == 0) {
@@ -51,15 +52,16 @@ function startTimer() {
   var date = new Date();
   endTime = parseInt(date.getTime());
   var gameTime = endTime - currentTime;
-  currentScore -= gameTime;
+  var totalScore = currentScore - gameTime;
   info.style.display = "flex";
 
-  document.getElementById('time').innerHTML = "Quickest time: " + time + "ms";
-  document.getElementById('clicks').innerHTML = "Total clicks: " + clicks;
-  document.getElementById('scoreResult').innerHTML = "Score: " + currentScore + "XP";
+  document.getElementById('scoreResult').innerHTML = currentScore;
+  document.getElementById('time').innerHTML = "- " + gameTime;
+  document.getElementById('total').innerHTML =  totalScore;
 }
 
 function playAgain() {
+  saveStatsCount = 0;
   var stats = document.getElementById("stats");
   stats.innerHTML = '';
 
@@ -75,26 +77,42 @@ function playAgain() {
 }
 
 function saveStats() {
-  var parameters = { name: $('#name').val(),
-                     score: currentScore,
-                     clicks: clicks,
-                     time: time
-                    };
-  $.get('/saveUser', parameters, function(data) {
-    var dHigher = data.rank - 2;
-    var dLower = data.rank + 1;
+  document.getElementById('error-none').style.display = "none";
+  document.getElementById('error-max').style.display = "none";
 
-    for (var h = 0; h < data.higher.length; h++) {
-      addItem(data.higher[h], dHigher);
-      dHigher++;
+  if(saveStatsCount == 0) {
+    var name = $('#name').val();
+    if(name) {
+      if(name.length < 13)
+        var parameters = {
+          name: name,
+          score: currentScore,
+          clicks: clicks,
+          time: time
+        };
+        $.get('/saveUser', parameters, function(data) {
+          var dHigher = data.rank - 2;
+          var dLower = data.rank + 1;
+
+          for (var h = 0; h < data.higher.length; h++) {
+            addItem(data.higher[h], dHigher);
+            dHigher++;
+          }
+          addItem(parameters, data.rank);
+          for (var h of data.lower) {
+            addItem(h, dLower);
+            dLower++;
+          }
+        });
+        saveStatsCount++;
+      } else {
+        document.getElementById('error-max').style.display = "block";
+      }
+    } else {
+      document.getElementById('error-none').style.display = "block";
     }
-    addItem(parameters, data.rank);
-    for (var h of data.lower) {
-      addItem(h, dLower);
-      dLower++;
-    }
-  });
-};
+  }
+}
 
 function addItem(data, rank) {
   console.log('adding item:', data, rank);
@@ -116,7 +134,7 @@ function showTop() {
       var tr = document.createElement('tr');
       tr.className = 'singleStat';
       tr.innerHTML = '<td>' + rank + '</td><td>' + h.name + '</td><td>' + h.score + '</td>'
-      document.getElementById('stats').appendChild(tr);
+      document.getElementById('topStats').appendChild(tr);
       rank++;
     }
   });

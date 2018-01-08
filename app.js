@@ -76,7 +76,7 @@ MongoClient.connect("mongodb://heroku_h7xk0tmx:em7skah8t4vlj4tfmd10efda68@ds2470
 
 
   app.get('/showTop', function (req, res) {
-    scores.find().sort({score : -1}).limit(10).toArray(function(err, data) {
+    scores.find().sort({score : -1}).limit(5).toArray(function(err, data) {
       if (err) throw err;
       res.send(data);
     });

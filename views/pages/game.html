@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="/public/stylesheets/game.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dynamics.js/1.1.5/dynamics.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
   </head>
   <body>
     <div class="timer bg-primary" id="timer"></div>
@@ -16,6 +18,78 @@
     </div>
     <div id="info" class="info">
       <div class="card">
+        <div class="card-container">
+          <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Score</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false" onclick="saveStats()">Your Rank</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false" onclick="showTop()">Top 5</a>
+            </li>
+          </ul>
+          <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+              <div class="d-flex justify-content-start">
+                <div>
+                  <h5 class="text-secondary">Score</h5>
+                  <h5 class="text-secondary">Time</h5>
+                  <h5>Total Score</h5>
+                </div>
+                <div class="ml-2">
+                  <div class="border border-top-0 border-left-0 border-right-0 border-secondary text-right">
+                    <h5 id="scoreResult" class="text-secondary">test</h5>
+                    <h5 id="time" class="text-secondary">- test</h5>
+                  </div>
+                  <h5 id="total" class="text-right">110000</h5>
+                </div>
+              </div>
+              <form class="d-flex flex-column">
+                <span class="text-danger" id="error-max">Enter name with max. 12 characters.</span>
+                <span class="text-danger" id="error-none">Please enter name.</span>
+                <input id="name" class="form-control form-control-lg" type="text" placeholder="Enter your name">
+              </form>
+              <div class="d-flex flex-column">
+                <a onclick="saveStats()" class="btn btn-primary text-white mt-2 mb-1">Save stats</a>
+                <a onclick="playAgain()" class="btn btn-primary text-white mt-1 mb4">Play Again</a>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+              <div class="card">
+                <table class="table">
+                  <thead class="bg-primary text-white">
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Score</th>
+                    </tr>
+                  </thead>
+                  <tbody id="stats">
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+              <div class="card">
+                <table class="table">
+                  <thead class="bg-primary text-white">
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Score</th>
+                    </tr>
+                  </thead>
+                  <tbody id="topStats">
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--<div class="card">
         <div class="card-body">
           <h1 class="card-title text-center">Game Over!</h1>
           <div class="d-flex">
@@ -47,7 +121,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div>-->
     </div>
     <script src="/public/scripts/engine.js"></script>
   </body>

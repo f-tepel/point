@@ -39,31 +39,12 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
+  justify-content: center;
+  align-items: center;
 }
-  .info .card {
-    margin: auto;
+  .info .card-container {
+    margin: 1em;
   }
-  .info form {
-    margin: 1rem 0;
-  }
-  .info a {
-    margin: 1rem 0;
-  }
-.scorelist {
-  border-left-style: solid;
-  border-left-width: 1px;
+#input-error{
+  display: none;
 }
-  .scorelist .window {
-    height: 20rem;
-    width: 100%;
-    overflow: hidden;
-  }
-    .scorelist .window .item {
-      border-top-style: solid;
-      border-top-color: black;
-      border-top-width: 1px;
-    }
-      .scorelist .window .item p {
-        padding: 1rem;
-        margin: 0;
-      }

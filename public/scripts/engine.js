@@ -79,19 +79,20 @@ function playAgain() {
 }
 
 function saveStats() {
-  document.getElementById('error-none').style.display = "none";
-  document.getElementById('error-max').style.display = "none";
-
   if(saveStatsCount == 0) {
     var name = $('#name').val();
     if(name) {
+      document.getElementById('error-none').style.display = "none";
       if(name.length < 13)
+        document.getElementById('error-max').style.display = "none";
+
         var parameters = {
           name: name,
           score: totalScore,
           clicks: clicks,
           time: time
         };
+
         $.get('/saveUser', parameters, function(data) {
           var dHigher = data.rank - 2;
           var dLower = data.rank + 1;

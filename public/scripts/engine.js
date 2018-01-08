@@ -112,7 +112,7 @@ function saveStats() {
       document.getElementById('error-none').style.display = "block";
     }
   }
-}
+
 
 function addItem(data, rank) {
   console.log('adding item:', data, rank);

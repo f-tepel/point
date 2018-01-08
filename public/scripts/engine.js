@@ -3,6 +3,7 @@ var info =  document.getElementById('info');
 var score = document.getElementById('score');
 var currentScore = 0;
 var time = 3000;
+var totalScore = 0;
 var clicks = 0;
 var timer;
 var $timer = $("#timer");
@@ -52,7 +53,7 @@ function startTimer() {
   var date = new Date();
   endTime = parseInt(date.getTime());
   var gameTime = endTime - currentTime;
-  var totalScore = currentScore - gameTime;
+  totalScore = currentScore - gameTime;
   info.style.display = "flex";
 
   document.getElementById('scoreResult').innerHTML = currentScore;
@@ -62,6 +63,7 @@ function startTimer() {
 
 function playAgain() {
   saveStatsCount = 0;
+  totalScore = 0;
   var stats = document.getElementById("stats");
   stats.innerHTML = '';
 
@@ -86,7 +88,7 @@ function saveStats() {
       if(name.length < 13)
         var parameters = {
           name: name,
-          score: currentScore,
+          score: totalScore,
           clicks: clicks,
           time: time
         };

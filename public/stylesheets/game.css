@@ -45,6 +45,9 @@ body {
   .info .card-container {
     margin: 1em;
   }
-#input-error{
+#error-max {
+  display: none;
+}
+#erro-none {
   display: none;
 }

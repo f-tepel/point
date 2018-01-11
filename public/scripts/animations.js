@@ -1,19 +1,23 @@
-var svg = document.querySelector('#ball');
+function addScoreAnimation() {
+  var add = document.getElementById('addScore');
+  add.style.top = '3em';
+  add.style.opacity = 1;
+  $('#addScore').animate({
+    opacity: '0',
+    top: '1em'
+  }, 500);
+}
 
-verticalBounce();
+function startTimerAnimation() {
+  $timer.animate({
+    width: "0"
+  }, time);
+  time -= 50;
 
-function verticalBounce() {
-  // We animate the two elements (svg, pin) independently
-  dynamics.animate(svg, {
-    scaleY: 0.8,
-    translateY: -60
-  }, {
-    type: dynamics.forceWithGravity,
-    duration: 800,
-    bounciness: 400
-  })
+}
 
-  setTimeout(function () {
-    verticalBounce();
-  }, 1000)
+function stopTimerAnimation() {
+  $timer.stop().animate({
+    width: "60vw"
+  }, 100);
 }

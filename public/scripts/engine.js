@@ -9,14 +9,16 @@ var timer;
 var $timer = $("#timer");
 var currentTime;
 var endTime;
-var saveStatsCount = 0;
+var saveStatsCount = 0, showTopCount = 0;
 
 function move() {
   if(clicks == 0) {
+    addScoreAnimation();
     timer = setTimeout(startTimer, time);
     var date = new Date();
     currentTime = parseInt(date.getTime());
   } else {
+    addScoreAnimation();
     clearTimeout(timer);
     timer = setTimeout(startTimer, time);
   }
@@ -34,35 +36,9 @@ function move() {
 
   clicks++;
 }
-
-function startTimerAnimation() {
-  $timer.animate({
-    width: "0"
-  }, time);
-  time -= 50;
-
-}
-
-function stopTimerAnimation() {
-  $timer.stop().animate({
-    width: "60vw"
-  }, 100);
-}
-
-function startTimer() {
-  var date = new Date();
-  endTime = parseInt(date.getTime());
-  var gameTime = endTime - currentTime;
-  totalScore = currentScore - gameTime;
-  info.style.display = "flex";
-
-  document.getElementById('scoreResult').innerHTML = currentScore;
-  document.getElementById('time').innerHTML = "- " + gameTime;
-  document.getElementById('total').innerHTML =  totalScore;
-}
-
 function playAgain() {
   saveStatsCount = 0;
+  saveTopcount = 0;
   totalScore = 0;
   var stats = document.getElementById("stats");
   stats.innerHTML = '';
@@ -76,6 +52,17 @@ function playAgain() {
   info.style.display = "none";
   point.style.margin = "auto";
   point.style.position = "static";
+}
+function startTimer() {
+  var date = new Date();
+  endTime = parseInt(date.getTime());
+  var gameTime = endTime - currentTime;
+  totalScore = currentScore - gameTime;
+  info.style.display = "flex";
+
+  document.getElementById('scoreResult').innerHTML = currentScore;
+  document.getElementById('time').innerHTML = "- " + gameTime;
+  document.getElementById('total').innerHTML =  totalScore;
 }
 
 function saveStats() {
@@ -100,7 +87,7 @@ function saveStats() {
           var dHigher = data.rank - 2;
           var dLower = data.rank + 1;
 
-          for (var h = 0; h < data.higher.length; h++) {
+          for (var h = 1; h >= 0; h--) {
             addItem(data.higher[h], dHigher);
             dHigher++;
           }
@@ -131,17 +118,18 @@ function addItem(data, rank) {
 }
 
 function showTop() {
-  $.get('/showTop', function(data) {
-    var stats = document.getElementById("stats");
-    stats.innerHTML = '';
-    var rank = 1;
+  if (showTopCount == 0) {
+    $.get('/showTop', function(data) {
+      var rank = 1;
 
-    for(var h of data) {
-      var tr = document.createElement('tr');
-      tr.className = 'singleStat';
-      tr.innerHTML = '<td>' + rank + '</td><td>' + h.name + '</td><td>' + h.score + '</td>'
-      document.getElementById('topStats').appendChild(tr);
-      rank++;
-    }
-  });
+      for(var h of data) {
+        var tr = document.createElement('tr');
+        tr.className = 'singleStat';
+        tr.innerHTML = '<td>' + rank + '</td><td>' + h.name + '</td><td>' + h.score + '</td>'
+        document.getElementById('topStats').appendChild(tr);
+        rank++;
+      }
+    });
+    showTopCount++;
+  }
 };

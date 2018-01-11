@@ -17,6 +17,12 @@ body {
   right: 2rem;
   top: 1rem;
 }
+.addScore {
+  opacity: 0;
+  position: absolute;
+  right: 2em;
+  top: 3em;
+}
 .gameField {
   position: absolute;
   bottom: 0;

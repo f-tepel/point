@@ -1,10 +1,10 @@
-var svg = document.querySelector('#ball');
+var ball = document.querySelector('#ball');
 
 verticalBounce();
 
 function verticalBounce() {
   // We animate the two elements (svg, pin) independently
-  dynamics.animate(svg, {
+  dynamics.animate(ball, {
     scaleY: 0.8,
     translateY: -60
   }, {
